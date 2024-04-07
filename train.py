@@ -1,3 +1,4 @@
+#editing - injecting errors into the code.
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 import pickle
@@ -9,7 +10,9 @@ y = df['Disease'].to_numpy()
 labels = np.sort(np.unique(y))
 y = np.array([np.where(labels == x) for x in y]).flatten()
 
-model = LogisticRegression().fit(X, y)
+#error 1 - injected intentionally
+model = LogisticRegression(wrong_parameter= True).fit(X, y)
+
 
 with open("model.pkl", 'wb') as f:
     pickle.dump(model, f)
