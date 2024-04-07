@@ -4,11 +4,11 @@
 name: Test
 
 on:
-  workflow_dispatch: # This allows manual triggering of the workflow
-  # workflow_run:
-  #   workflows: ["Build_Run_Push_Docker"]
-  #   types:
-  #     - completed
+  # workflow_dispatch: # This allows manual triggering of the workflow
+  workflow_run:
+    workflows: ["Train"]
+    types:
+      - completed
  
 jobs:
   pull-and-run:
