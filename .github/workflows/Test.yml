@@ -4,10 +4,10 @@
 name: Test
 
 on:
-  workflow_run:
+  workflow_run:       #run Test only if Train completes
     workflows: ["Train"]
     types:
-      - completed
+      - completed 
  
 jobs:
   pull-and-run:
