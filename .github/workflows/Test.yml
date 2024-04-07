@@ -33,6 +33,5 @@ jobs:
             echo "::set-output name=passed::false"
             exit 1
           fi
+#Test.yml works well - when Train is manually triggered
 
-
-#Test Workflow1 - test begins 01:55 - for both actions 
