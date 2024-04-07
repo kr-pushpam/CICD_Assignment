@@ -15,4 +15,4 @@
 	RUN python train.py
 	
 	# Command to run test.py when the container starts
-CMD ["python", "test.py"]
+	CMD ["python", "test.py"]
