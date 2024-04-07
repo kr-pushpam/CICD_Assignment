@@ -1,7 +1,7 @@
 #Test Workflow (test.yml): This workflow pulls the Docker image from the registry and runs it, succeeding only if the score returned is greater than 0.50. It runs only if the Train workflow succeeds.
 
 
-name: Pull_DockerImage_Test
+name: Test
 
 on:
   workflow_dispatch: # This allows manual triggering of the workflow
