@@ -34,5 +34,9 @@ jobs:
           tags: krpushpam/assignment_3:latest
 
 # Train.yml works on manual trigger
+# Case 1- Both of your actions pass - passed 02:45
 
+
+# Case 1- Both of your actions pass - passed 02:45 - tran triggred by pull - and test on completion of train
+# Test Case 2 - Both of your actions fail ( both needs to run and fail) _ No change needed in Train.yml
 
