@@ -33,6 +33,6 @@ jobs:
           push: true
           tags: krpushpam/assignment_3:latest
 
-##Test Workflow2 - test begins 02:10 - for both a
+# Train.yml works on manual trigger
 
 
