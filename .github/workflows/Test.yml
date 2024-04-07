@@ -1,4 +1,4 @@
-#Test Workflow1 (test.yml): This workflow pulls the Docker image from the registry and runs it, succeeding only if the score returned is greater than 0.50. It runs only if the Train workflow succeeds.
+##Test Workflow1 (test.yml): This workflow pulls the Docker image from the registry and runs it, succeeding only if the score returned is greater than 0.50. It runs only if the Train workflow succeeds.
 # name: Test
 
 # on:
@@ -31,42 +31,49 @@
 #             echo "::set-output name=passed::false"
 #             exit 1
 #           fi
-#Test.yml works well - when Train is manually triggered
-# Case 1- Both of your actions pass - passed 02:45 - tran triggred by pull - and test on completion of train
+##Test.yml works well - when Train is manually triggered
+##Case 1- Both of your actions pass - passed 02:45 - tran triggred by pull - and test on completion of train
 
-# Test Case 2 - Both of your actions fail ( both needs to run and fail)
-# Changes -  Train.yml and train.py
+##Test Case 2 - Both of your actions fail ( both needs to run and fail)
+##Changes -  Train.yml and train.py
 
 name: Test
 
 on:
-  workflow_run:
-    workflows: ["Train"]
-    types:
-      - completed
-      - queued
-
+    pull_request:
+      branches: [ main ]
+ 
 jobs:
   pull-and-run:
     runs-on: ubuntu-latest
+    
     steps:
+      - name: Wait for 10 seconds
+        run: sleep 10
+      
       - name: Check if Train workflow was successful
         id: check_train_status
         run: |
-          if [ "${{ github.event.workflow_run.conclusion }}" != "success" ]; then
+          if:[${{ github.event.workflow_run.conclusion != 'success' }}];then
             echo "Train workflow did not succeed. Forcing Test workflow to fail."
             exit 1
           fi
+      - name: Check out the code
+        uses: actions/checkout@v2
 
       - name: Pull Docker image
         run: docker pull krpushpam/assignment_3:latest
 
       - name: Run Docker image and check score
+        id: test
         run: |
-          SCORE=$(docker run --rm krpushpam/assignment_3:latest)
+          SCORE=$(docker run --rm  krpushpam/assignment_3:latest)
           echo "Score: $SCORE"
           if (( $(echo "$SCORE > 0.30" | bc -l) )); then
             echo "Success: Score is greater than 0.30"
+            echo "::set-output name=passed::true"
           else
             echo "Failure: Score is not greater than 0.30"
+            echo "::set-output name=passed::false"
             exit 1
+          fi
