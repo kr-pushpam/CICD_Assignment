@@ -32,4 +32,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: kr_pushpam/CICD_Assignment:latest
+          tags: krpushpam/assignment_3:latest
