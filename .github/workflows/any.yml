@@ -1,0 +1,40 @@
+name: Test
+
+on:
+    pull_request:
+      branches: [ main ]
+ 
+jobs:
+  pull-and-run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Wait for 10 seconds
+        run: sleep 10
+      
+      - name: Check if Train workflow was successful
+        id: check_train_status
+        run: |
+          if:[${{ github.event.workflow_run.conclusion != 'success' }}];then
+            echo "Train workflow did not succeed. Forcing Test workflow to fail."
+            exit 1
+          fi
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Pull Docker image
+        run: docker pull krpushpam/assignment_3:latest
+
+      - name: Run Docker image and check score
+        id: test
+        run: |
+          SCORE=$(docker run --rm  krpushpam/assignment_3:latest)
+          echo "Score: $SCORE"
+          if (( $(echo "$SCORE > 0.30" | bc -l) )); then
+            echo "Success: Score is greater than 0.30"
+            echo "::set-output name=passed::true"
+          else
+            echo "Failure: Score is not greater than 0.30"
+            echo "::set-output name=passed::false"
+            exit 1
+          fi
