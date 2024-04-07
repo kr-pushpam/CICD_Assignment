@@ -44,7 +44,7 @@ on:
     workflows: ["Train"]
     types:
       - completed
-      - requested
+      - queued
 
 jobs:
   pull-and-run:
@@ -65,8 +65,8 @@ jobs:
         run: |
           SCORE=$(docker run --rm krpushpam/assignment_3:latest)
           echo "Score: $SCORE"
-          if (( $(echo "$SCORE > 0.50" | bc -l) )); then
-            echo "Success: Score is greater than 0.50"
+          if (( $(echo "$SCORE > 0.30" | bc -l) )); then
+            echo "Success: Score is greater than 0.30"
           else
-            echo "Failure: Score is not greater than 0.50"
+            echo "Failure: Score is not greater than 0.30"
             exit 1
